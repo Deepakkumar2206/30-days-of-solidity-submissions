@@ -1,1 +1,4 @@
 
+[submodule "Day10_ActivityTracker/lib/forge-std"]
+	path = Day10_ActivityTracker/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
