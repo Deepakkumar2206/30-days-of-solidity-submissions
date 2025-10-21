@@ -5,3 +5,6 @@
 [submodule "Day11_MasterKey/lib/forge-std"]
 	path = Day11_MasterKey/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "Day12_MyFirstToken/lib/forge-std"]
+	path = Day12_MyFirstToken/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
