@@ -17,3 +17,6 @@
 [submodule "Day14_SafeDepositBox/lib/forge-std"]
 	path = Day14_SafeDepositBox/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "Day15_GasSaver/lib/forge-std"]
+	path = Day15_GasSaver/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
