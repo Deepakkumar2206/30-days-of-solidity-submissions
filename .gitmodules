@@ -20,3 +20,9 @@
 [submodule "Day15_GasSaver/lib/forge-std"]
 	path = Day15_GasSaver/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "Day16_PluginStore/lib/forge-std"]
+	path = Day16_PluginStore/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "day17-upgradehub/lib/forge-std"]
+	path = day17-upgradehub/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
