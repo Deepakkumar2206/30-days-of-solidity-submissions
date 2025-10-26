@@ -1,66 +1,106 @@
-## Foundry
+# Day 17 – UpgradeHub.sol
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Concept
 
-Foundry consists of:
+Upgradeable Smart Contracts using Proxy Pattern and Delegatecall.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Objective
 
-## Documentation
+The goal of this task is to implement an upgradeable subscription manager using the Proxy Pattern in Solidity. The proxy holds the data, and the external logic contracts (V1 and V2) handle the logic. Using `delegatecall`, we can upgrade the logic without losing stored data.
 
-https://book.getfoundry.sh/
+---
 
-## Usage
 
-### Build
+## Description of Contracts
 
-```shell
-$ forge build
+**UpgradeHub.sol**
+Proxy contract that:
+
+* Stores user subscription data (plan IDs and expiry dates)
+* Delegates function calls to the current logic contract using `delegatecall`
+* Allows the owner to upgrade logic implementation
+
+**SubscriptionLogicV1.sol**
+Initial version of the logic contract that:
+
+* Manages subscriptions and renewals
+* Writes to proxy storage through delegatecall
+
+**SubscriptionLogicV2.sol**
+Upgraded logic contract that:
+
+* Retains all V1 functionality
+* Adds pause and resume features for user subscriptions
+
+---
+
+## Foundry Commands
+
+### Build the project
+
+```bash
+forge build
 ```
 
-### Test
+### Deploy Logic V1
 
-```shell
-$ forge test
+```bash
+forge create src/SubscriptionLogicV1.sol:SubscriptionLogicV1 \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key <PRIVATE_KEY> \
+  --broadcast
 ```
 
-### Format
+### Deploy Proxy
 
-```shell
-$ forge fmt
+```bash
+forge create src/UpgradeHub.sol:UpgradeHub \
+  --constructor-args <LOGIC_V1_ADDRESS> \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key <PRIVATE_KEY> \
+  --broadcast
 ```
 
-### Gas Snapshots
+### Interact with Proxy (Subscribe Function)
 
-```shell
-$ forge snapshot
+```bash
+cast send <PROXY_ADDRESS> "subscribe(uint256,uint256)" 1 30 \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key <PRIVATE_KEY>
 ```
 
-### Anvil
+### Deploy Logic V2
 
-```shell
-$ anvil
+```bash
+forge create src/SubscriptionLogicV2.sol:SubscriptionLogicV2 \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key <PRIVATE_KEY> \
+  --broadcast
 ```
 
-### Deploy
+### Upgrade Logic Implementation
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```bash
+cast send <PROXY_ADDRESS> "upgradeTo(address)" <LOGIC_V2_ADDRESS> \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key <PRIVATE_KEY>
 ```
 
-### Cast
+---
 
-```shell
-$ cast <subcommand>
-```
+## Key Learnings
 
-### Help
+1. Separation of storage and logic using Proxy Pattern.
+2. Using `delegatecall` to execute logic in another contract while preserving storage.
+3. Safely upgrading smart contracts without losing user data.
+4. Understanding storage layout consistency between proxy and logic contracts.
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+---
+
+## Summary
+
+This project demonstrates how to design upgradeable contracts using the Proxy Pattern in Solidity. The `UpgradeHub` contract serves as a persistent data holder, while `SubscriptionLogicV1` and `SubscriptionLogicV2` define upgradable logic layers. This architecture ensures flexibility and maintainability for real-world decentralized applications.
+
+---
+
+# End of the Project.
