@@ -1,0 +1,28 @@
+
+[submodule "Day10_ActivityTracker/lib/forge-std"]
+	path = Day10_ActivityTracker/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Day11_MasterKey/lib/forge-std"]
+	path = Day11_MasterKey/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Day12_MyFirstToken/lib/forge-std"]
+	path = Day12_MyFirstToken/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Day13_preorderTokens/lib/forge-std"]
+	path = Day13_preorderTokens/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Day13_preorderTokens/lib/openzeppelin-contracts"]
+	path = Day13_preorderTokens/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "Day14_SafeDepositBox/lib/forge-std"]
+	path = Day14_SafeDepositBox/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Day15_GasSaver/lib/forge-std"]
+	path = Day15_GasSaver/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Day16_PluginStore/lib/forge-std"]
+	path = Day16_PluginStore/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "day17-upgradehub/lib/forge-std"]
+	path = day17-upgradehub/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
