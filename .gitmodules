@@ -1,0 +1,3 @@
+[submodule "Day19_signthis/lib/forge-std"]
+	path = Day19_signthis/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
