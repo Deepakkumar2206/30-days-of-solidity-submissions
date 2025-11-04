@@ -1,66 +1,93 @@
-## Foundry
+# Day 20 – FortKnox
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Project Overview
 
-Foundry consists of:
+The **FortKnox** challenge focuses on understanding and preventing **reentrancy attacks** in Solidity smart contracts.
+This exercise demonstrates both a **vulnerable implementation** and a **secure version** using proper state-update patterns and reentrancy guards.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+---
 
-## Documentation
+## Objective
 
-https://book.getfoundry.sh/
+The goal of this project is to simulate a vault system where users can deposit and withdraw funds.
+It highlights how a malicious contract can repeatedly call back into a function before the previous execution completes,
+and how to fix the issue by following the **checks-effects-interactions** pattern or using **OpenZeppelin’s ReentrancyGuard**.
 
-## Usage
+---
 
-### Build
+## File explanation:
+### src/GoldVault.sol
 
-```shell
-$ forge build
+- A simple vault contract that allows deposits and withdrawals of Ether.
+- The first version contains a reentrancy vulnerability because it transfers Ether before updating the user’s balance.
+- The fixed version updates balances before external calls, following the checks-effects-interactions pattern to prevent reentrancy.
+
+src/GoldThief.sol
+
+- A malicious contract used to exploit the vulnerable GoldVault.
+- It calls the vault’s withdraw function repeatedly in a single transaction using the fallback function,
+demonstrating how reentrancy drains funds before the vault can update user balances.
+
+test/FortKnox.t.sol
+
+Contains Foundry-based test cases for both the vulnerable and secure versions of GoldVault.
+
+The tests include:
+
+- Deploying both contracts
+- Depositing funds into the vault
+- Simulating an attack from GoldThief
+- Verifying that the vulnerable contract loses funds
+- Confirming that the fixed contract resists the attack
+
+---
+
+
+## Test Execution
+
+Build the project:
+
+```bash
+forge build
 ```
 
-### Test
+Run all tests:
 
-```shell
-$ forge test
+```bash
+forge test -vv
 ```
 
-### Format
+The test suite verifies:
 
-```shell
-$ forge fmt
-```
+* The attacker successfully drains funds from the vulnerable contract.
+* The secure version of the contract resists reentrancy attempts.
 
-### Gas Snapshots
+---
 
-```shell
-$ forge snapshot
-```
+## Sample Output
 
-### Anvil
+The following images show the build and test results generated using Foundry:
 
-```shell
-$ anvil
-```
+* **forge_build_success.png** – successful compilation of all contracts.
+* **forge_test_vulnerable_safe.png** – test results comparing the vulnerable and protected cases.
+(Check inside images)
+---
 
-### Deploy
+## Key Concepts Learned
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+* Reentrancy vulnerabilities in Ethereum contracts.
+* Importance of updating state before external calls.
+* Using `ReentrancyGuard` and the checks-effects-interactions pattern.
+* Writing targeted tests for security validation in Foundry.
 
-### Cast
+---
 
-```shell
-$ cast <subcommand>
-```
+## Summary
 
-### Help
+The FortKnox exercise demonstrates how small design oversights can lead to major vulnerabilities in smart contracts.
+By implementing the correct order of operations and using simple defensive programming techniques,
+reentrancy attacks can be fully prevented, ensuring safer fund management on the blockchain.
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+---
+
+# End of the Project. 
